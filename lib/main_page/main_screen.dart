@@ -5,6 +5,7 @@ import 'package:project/Homepage/homepage_screen.dart';
 import 'package:project/Product/product_screen.dart';
 import 'package:project/Profile/profile_screen.dart';
 import 'package:project/Search/search_screen.dart';
+import 'package:project/notification.dart/notification_screen.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -27,7 +28,7 @@ class _MainScreenState extends State<MainScreen> {
     cartscreen(),
     Addcart(),
 
-    Productscreen(),
+    notification(),
     Profilescreen(),
   ];
 

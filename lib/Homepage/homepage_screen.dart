@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:project/Product/product_screen.dart';
+import 'package:project/Profile/profile_screen.dart';
+import 'package:project/model/food_model.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -43,7 +47,7 @@ class _HomeScreenState extends State<HomeScreen>
             color: Colors.grey.withOpacity(0.2),
             child: IconButton(
               onPressed: () {
-                scaffoldKey.currentState?.openDrawer();
+                Get.to(Profilescreen());
               },
               // icon: Image.asset(
               //   menuIcon,
@@ -249,69 +253,77 @@ class _HomeScreenState extends State<HomeScreen>
 
   Widget _buildTabBody() {
     return ListView.builder(
-        itemCount: 10,
+        itemCount: FoodModel.foodList.length,
         scrollDirection: Axis.horizontal,
         itemBuilder: (context, index) {
-          return Container(
-            width: 250,
-            margin: EdgeInsets.symmetric(vertical: 10, horizontal: 8),
-            child: Card(
-              elevation: 6,
-              surfaceTintColor: Colors.white,
-              color: Colors.white,
-              shadowColor: Colors.black87,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30)),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                        width: 180,
-                        height: 160,
-                        margin: EdgeInsets.all(16),
-                        decoration: BoxDecoration(boxShadow: [
-                          BoxShadow(color: Colors.black87, blurRadius: 30.0)
-                        ], shape: BoxShape.circle),
-                        clipBehavior: Clip.antiAlias,
-                        child: Image.network(
-                          'https://img.freepik.com/free-photo/fried-shrimp-prawn-cake-white-plate_74190-2585.jpg?w=1480&t=st=1703667830~exp=1703668430~hmac=d7f2d65f91385660f6d0c4a5c2dbd31a8d6f4010c31033ad6630f7f984fbca93',
-                          fit: BoxFit.fill,
-                        )),
-                    Text(
-                      "Pizza Pasta",
-                      style: TextStyle(
-                        fontSize: 20,
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
+          final FoodModel foodModel = FoodModel.foodList[index];
+          return InkWell(
+            onTap: () {
+              Get.to(Detailscreen(
+                foodModel: foodModel,
+              ));
+            },
+            child: Container(
+              width: 250,
+              margin: EdgeInsets.symmetric(vertical: 10, horizontal: 8),
+              child: Card(
+                elevation: 6,
+                surfaceTintColor: Colors.white,
+                color: Colors.white,
+                shadowColor: Colors.black87,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30)),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                          width: 180,
+                          height: 160,
+                          margin: EdgeInsets.all(16),
+                          decoration: BoxDecoration(boxShadow: [
+                            BoxShadow(color: Colors.black87, blurRadius: 30.0)
+                          ], shape: BoxShape.circle),
+                          clipBehavior: Clip.antiAlias,
+                          child: Image.network(
+                            foodModel.img,
+                            fit: BoxFit.fill,
+                          )),
+                      Text(
+                        foodModel.title,
+                        style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
-                    Text(
-                      "Pasta is very good",
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Colors.grey,
-                        fontWeight: FontWeight.bold,
+                      Text(
+                        foodModel.desc,
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.grey,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
-                    Text(
-                      "4.5",
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.blueGrey,
+                      Text(
+                        foodModel.rate.toString(),
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: Colors.blueGrey,
+                        ),
                       ),
-                    ),
-                    Spacer(),
-                    Text(
-                      "\$ 11.0",
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.red,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    )
-                  ],
+                      Spacer(),
+                      Text(
+                        "\$ ${foodModel.price}",
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: Colors.red,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      )
+                    ],
+                  ),
                 ),
               ),
             ),

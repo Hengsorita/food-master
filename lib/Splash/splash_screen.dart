@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:project/Welcome/welcome_screen.dart';
+import 'package:project/controller/splash_controller.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -10,12 +11,18 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  SplashController _controller = Get.find();
+
   @override
   void initState() {
+    _controller.intiSplashScreen();
     super.initState();
-    Future.delayed(const Duration(milliseconds: 2000), () {
-      Get.off(WelcomeScreen());
-    });
+  }
+
+  @override
+  void dispose() {
+    _controller.closeTimer();
+    super.dispose();
   }
 
   @override

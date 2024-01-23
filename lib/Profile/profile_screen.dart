@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:project/component/my_button.dart';
 
 class Profilescreen extends StatelessWidget {
@@ -25,7 +26,8 @@ class Profilescreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: Icon(Icons.arrow_back_ios),
+        leading: IconButton(
+            onPressed: () => Get.back(), icon: Icon(Icons.arrow_back)),
         centerTitle: true,
         title: Text(
           'My Profile',

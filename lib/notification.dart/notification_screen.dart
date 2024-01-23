@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:project/payment.dart/payment_method.dart';
+import 'package:project/Homepage/homepage_screen.dart';
 
-class payment extends StatelessWidget {
-  const payment({super.key});
+class notification extends StatelessWidget {
+  const notification({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -11,10 +11,11 @@ class payment extends StatelessWidget {
       backgroundColor: Colors.grey[100],
       appBar: AppBar(
         leading: IconButton(
-            onPressed: () => Get.back(), icon: Icon(Icons.arrow_back)),
+            onPressed: () => Get.to(HomeScreen()),
+            icon: Icon(Icons.arrow_back)),
         centerTitle: true,
         title: Text(
-          'Payment',
+          'Notification',
           style: TextStyle(
             color: Colors.black,
             fontSize: 20,
@@ -45,7 +46,7 @@ class payment extends StatelessWidget {
                         children: [
                           SizedBox(width: 5),
                           Text(
-                            'Choose Address',
+                            'Lorem lpsum',
                             style: TextStyle(color: Colors.black, fontSize: 16),
                           ),
                           Spacer(),
@@ -78,16 +79,9 @@ class payment extends StatelessWidget {
                           children: [
                             SizedBox(width: 10),
                             Text(
-                              'Payment Method ',
+                              'Lorem lpsum ',
                               style:
                                   TextStyle(color: Colors.black, fontSize: 16),
-                            ),
-                            Spacer(),
-                            IconButton(
-                              icon: Icon(Icons.chevron_right_outlined),
-                              onPressed: () {
-                                Get.to(method());
-                              },
                             ),
                           ],
                         ),

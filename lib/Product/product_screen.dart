@@ -1,14 +1,65 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
+import 'package:get/get.dart';
+import 'package:project/Cartpage/add_cart.dart';
+import 'package:project/Cartpage/cartpage_screen.dart';
+import 'package:project/Product/product_detail_controller.dart';
+import 'package:project/model/food_model.dart';
 
 class Detailscreen extends StatelessWidget {
-  const Detailscreen({super.key});
+  Detailscreen({super.key, required this.foodModel});
+
+  final FoodModel foodModel;
+
+  ProductDetailController controller = Get.find();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.grey.withOpacity(0.3),
-        leading: Icon(Icons.arrow_back_ios),
+        leadingWidth: 70,
+        leading: Padding(
+          padding: const EdgeInsets.only(left: 15),
+          child: ClipPath(
+            clipper: ParallelogramClipper(),
+            child: Container(
+              color: Colors.grey.withOpacity(0.2),
+              child: IconButton(
+                onPressed: () {
+                  Get.back();
+                },
+                // icon: Image.asset(
+                //   menuIcon,
+                //   height: 20,
+                // ),
+                icon: const Icon(
+                  Icons.chevron_left,
+                  size: 20,
+                ),
+              ),
+            ),
+          ),
+        ),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 15),
+            child: InkWell(
+              onTap: () {},
+              child: ClipPath(
+                clipper: ParallelogramClipper(),
+                child: SizedBox(
+                  height: 55,
+                  width: 55,
+                  child: IconButton(
+                    onPressed: () => controller.addToFav(foodModel),
+                    icon: Icon(Icons.favorite),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
       body: SafeArea(
           child: Column(
@@ -22,8 +73,7 @@ class Detailscreen extends StatelessWidget {
                   bottomLeft: Radius.circular(20),
                   bottomRight: Radius.circular(20),
                 )),
-            child: Image.network(
-                'https://freepngimg.com/thumb/food/139065-food-plate-fish-free-download-png-hq-thumb.png'),
+            child: Image.network(foodModel.img),
           ),
           Container(),
           SizedBox(
@@ -36,7 +86,7 @@ class Detailscreen extends StatelessWidget {
                 Row(
                   children: [
                     Text(
-                      'Fried Chicken',
+                      foodModel.title,
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
@@ -48,7 +98,7 @@ class Detailscreen extends StatelessWidget {
                       color: Colors.yellow[800],
                     ),
                     Text(
-                      '4.00',
+                      foodModel.rate.toString(),
                       style: TextStyle(fontSize: 20),
                     ),
                   ],
@@ -98,16 +148,21 @@ class Detailscreen extends StatelessWidget {
                       color: Colors.red,
                     ),
                     Text(
-                      '20.00',
+                      foodModel.price.toString(),
                       style: TextStyle(
                         fontSize: 30,
                       ),
                     ),
                     Spacer(),
-                    Icon(
-                      Icons.shopping_cart,
-                      size: 50,
-                      color: Colors.red,
+                    InkWell(
+                      onTap: () {
+                        controller.addToCart(foodModel);
+                      },
+                      child: Icon(
+                        Icons.shopping_cart,
+                        size: 50,
+                        color: Colors.red,
+                      ),
                     ),
                   ],
                 ),

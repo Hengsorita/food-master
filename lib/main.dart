@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:project/Homepage/homepage_screen.dart';
+import 'package:project/Product/product_screen.dart';
+import 'package:project/Splash/splash_screen.dart';
+import 'package:project/controller_binding.dart';
+
+import 'package:project/notification.dart/notification_screen.dart';
 import 'package:project/payment.dart/order_screen.dart';
-import 'package:project/payment.dart/payment.dart';
-import 'package:project/payment.dart/payment_method1.dart';
 
 void main() {
   runApp(MyApp());
@@ -20,7 +24,8 @@ class _MyappState extends State<MyApp> {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      home: order(),
+      home: SplashScreen(),
+      initialBinding: ControllerBinding(),
     );
   }
 }
