@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:get/get.dart';
+import 'package:project/payment.dart/address.dart';
+
 import 'package:project/payment.dart/payment_method.dart';
 
 class payment extends StatelessWidget {
@@ -10,8 +13,29 @@ class payment extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.grey[100],
       appBar: AppBar(
-        leading: IconButton(
-            onPressed: () => Get.back(), icon: Icon(Icons.arrow_back)),
+        leadingWidth: 70,
+        leading: Padding(
+          padding: const EdgeInsets.only(left: 15),
+          child: ClipPath(
+            clipper: ParallelogramClipper(),
+            child: Container(
+              color: Colors.grey.withOpacity(0.2),
+              child: IconButton(
+                onPressed: () {
+                  Get.back();
+                },
+                // icon: Image.asset(
+                //   menuIcon,
+                //   height: 20,
+                // ),
+                icon: const Icon(
+                  Icons.chevron_left,
+                  size: 20,
+                ),
+              ),
+            ),
+          ),
+        ),
         centerTitle: true,
         title: Text(
           'Payment',
@@ -45,13 +69,15 @@ class payment extends StatelessWidget {
                         children: [
                           SizedBox(width: 5),
                           Text(
-                            'Choose Address',
+                            'Choose Addrees',
                             style: TextStyle(color: Colors.black, fontSize: 16),
                           ),
                           Spacer(),
                           IconButton(
                             icon: Icon(Icons.chevron_right_outlined),
-                            onPressed: () {},
+                            onPressed: () {
+                              Get.to(address());
+                            },
                           ),
                         ],
                       ),

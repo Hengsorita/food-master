@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:get/get.dart';
 import 'package:project/Homepage/homepage_screen.dart';
 
@@ -10,11 +11,28 @@ class Recieved extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.grey[100],
       appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios),
-          onPressed: () {
-            Get.back();
-          },
+        leadingWidth: 70,
+        leading: Padding(
+          padding: const EdgeInsets.only(left: 15),
+          child: ClipPath(
+            clipper: ParallelogramClipper(),
+            child: Container(
+              color: Colors.grey.withOpacity(0.2),
+              child: IconButton(
+                onPressed: () {
+                  Get.back();
+                },
+                // icon: Image.asset(
+                //   menuIcon,
+                //   height: 20,
+                // ),
+                icon: const Icon(
+                  Icons.chevron_left,
+                  size: 20,
+                ),
+              ),
+            ),
+          ),
         ),
       ),
       body: SafeArea(
@@ -138,12 +156,15 @@ class Recieved extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text(
-                            'Order Recieved',
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
+                          InkWell(
+                            onTap: () => Get.back(),
+                            child: Text(
+                              'Order Recieved',
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
                         ],

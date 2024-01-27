@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:get/get.dart';
 import 'package:project/Cartpage/favourities_controller.dart';
 import 'package:project/model/food_model.dart';
@@ -17,11 +18,28 @@ class _cartscreenState extends State<cartscreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          leading: IconButton(
-            icon: Icon(Icons.arrow_back_ios),
-            onPressed: () {
-              Get.back();
-            },
+          leadingWidth: 70,
+          leading: Padding(
+            padding: const EdgeInsets.only(left: 15),
+            child: ClipPath(
+              clipper: ParallelogramClipper(),
+              child: Container(
+                color: Colors.grey.withOpacity(0.2),
+                child: IconButton(
+                  onPressed: () {
+                    Get.back();
+                  },
+                  // icon: Image.asset(
+                  //   menuIcon,
+                  //   height: 20,
+                  // ),
+                  icon: const Icon(
+                    Icons.chevron_left,
+                    size: 20,
+                  ),
+                ),
+              ),
+            ),
           ),
           centerTitle: true,
           title: Text(
@@ -90,12 +108,35 @@ class cartReusable extends StatelessWidget {
                   style: TextStyle(fontSize: 16, color: Colors.black),
                 ),
                 SizedBox(height: 5),
-                Text(
-                  foodModel.price.toString(),
-                  style: TextStyle(
-                      fontSize: 30,
-                      color: Colors.red,
-                      fontWeight: FontWeight.bold),
+                Row(
+                  children: [
+                    Text(
+                      foodModel.price.toString(),
+                      style: TextStyle(
+                          fontSize: 30,
+                          color: Colors.red,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(
+                      width: 70,
+                    ),
+                    Icon(
+                      Icons.star,
+                      color: Colors.yellow[600],
+                    ),
+                    Icon(
+                      Icons.star,
+                      color: Colors.yellow[600],
+                    ),
+                    Icon(
+                      Icons.star,
+                      color: Colors.yellow[600],
+                    ),
+                    Icon(
+                      Icons.star,
+                      color: Colors.yellow[600],
+                    ),
+                  ],
                 ),
               ],
             ),

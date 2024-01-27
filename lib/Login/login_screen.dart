@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:get/get.dart';
+import 'package:project/Login/password_screen.dart';
 import 'package:project/component/my_button.dart';
 import 'package:project/main_page/main_screen.dart';
 
@@ -10,8 +12,29 @@ class Loginscreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-            onPressed: () => Get.back(), icon: Icon(Icons.arrow_back)),
+        leadingWidth: 70,
+        leading: Padding(
+          padding: const EdgeInsets.only(left: 15),
+          child: ClipPath(
+            clipper: ParallelogramClipper(),
+            child: Container(
+              color: Colors.grey.withOpacity(0.2),
+              child: IconButton(
+                onPressed: () {
+                  Get.back();
+                },
+                // icon: Image.asset(
+                //   menuIcon,
+                //   height: 20,
+                // ),
+                icon: const Icon(
+                  Icons.chevron_left,
+                  size: 20,
+                ),
+              ),
+            ),
+          ),
+        ),
         centerTitle: true,
         title: Text(
           "sign in",
@@ -89,13 +112,16 @@ class Loginscreen extends StatelessWidget {
               SizedBox(height: 10),
               //Forgot Password??
               Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Text(
-                    ' Forgot Password',
-                    style: TextStyle(
-                      color: Colors.red,
-                      fontWeight: FontWeight.bold,
+                  InkWell(
+                    onTap: () => (Get.to(forgotpassword())),
+                    child: Text(
+                      ' Forgot Password',
+                      style: TextStyle(
+                        color: Colors.red,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   )
                 ],

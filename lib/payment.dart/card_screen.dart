@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:get/get.dart';
 import 'package:project/payment.dart/order_screen.dart';
 
@@ -12,8 +13,29 @@ class _CardPageState extends State<CardPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-            onPressed: () => Get.back(), icon: Icon(Icons.arrow_back)),
+        leadingWidth: 70,
+        leading: Padding(
+          padding: const EdgeInsets.only(left: 15),
+          child: ClipPath(
+            clipper: ParallelogramClipper(),
+            child: Container(
+              color: Colors.grey.withOpacity(0.2),
+              child: IconButton(
+                onPressed: () {
+                  Get.back();
+                },
+                // icon: Image.asset(
+                //   menuIcon,
+                //   height: 20,
+                // ),
+                icon: const Icon(
+                  Icons.chevron_left,
+                  size: 20,
+                ),
+              ),
+            ),
+          ),
+        ),
         centerTitle: true,
         title: Text("Select Card"),
       ),

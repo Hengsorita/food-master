@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:get/get.dart';
+import 'package:project/Homepage/homepage_screen.dart';
 import 'package:project/component/my_button.dart';
 
 class Registerscreen extends StatelessWidget {
@@ -9,8 +11,29 @@ class Registerscreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-            onPressed: () => Get.back(), icon: Icon(Icons.arrow_back)),
+        leadingWidth: 70,
+        leading: Padding(
+          padding: const EdgeInsets.only(left: 15),
+          child: ClipPath(
+            clipper: ParallelogramClipper(),
+            child: Container(
+              color: Colors.grey.withOpacity(0.2),
+              child: IconButton(
+                onPressed: () {
+                  Get.back();
+                },
+                // icon: Image.asset(
+                //   menuIcon,
+                //   height: 20,
+                // ),
+                icon: const Icon(
+                  Icons.chevron_left,
+                  size: 20,
+                ),
+              ),
+            ),
+          ),
+        ),
         centerTitle: true,
         title: Text(
           "sign in",
@@ -151,7 +174,11 @@ class Registerscreen extends StatelessWidget {
               ),
               SizedBox(height: 50),
               // Sign up
-              MyButton(title: "Sign Up", callback: () {}),
+              MyButton(
+                  title: "Sign Up",
+                  callback: () {
+                    Get.to(HomeScreen());
+                  }),
               SizedBox(height: 10),
 
               // Don't have account

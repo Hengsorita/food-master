@@ -94,6 +94,7 @@ class _MainScreenState extends State<MainScreen> {
   Widget _buildPageView() {
     return PageView(
         controller: _pageController,
+        physics: NeverScrollableScrollPhysics(),
         onPageChanged: (index) {
           pageChanged(index);
         },

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:project/Homepage/homepage_screen.dart';
+import 'package:project/Login/password_screen.dart';
 import 'package:project/Product/product_screen.dart';
 import 'package:project/Splash/splash_screen.dart';
 import 'package:project/controller_binding.dart';

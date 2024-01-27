@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:get/get.dart';
 import 'package:project/Cartpage/add_to_cart_controller.dart';
+import 'package:project/Cartpage/favourities_controller.dart';
+import 'package:project/component/my_button.dart';
 import 'package:project/model/food_model.dart';
+//import 'package:project/payment.dart/payment.dart';
+
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:project/payment.dart/payment.dart';
 
 class Addcart extends StatelessWidget {
@@ -13,11 +19,28 @@ class Addcart extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          leading: IconButton(
-            icon: Icon(Icons.arrow_back_ios),
-            onPressed: () {
-              Get.back();
-            },
+          leadingWidth: 70,
+          leading: Padding(
+            padding: const EdgeInsets.only(left: 15),
+            child: ClipPath(
+              clipper: ParallelogramClipper(),
+              child: Container(
+                color: Colors.grey.withOpacity(0.2),
+                child: IconButton(
+                  onPressed: () {
+                    Get.back();
+                  },
+                  // icon: Image.asset(
+                  //   menuIcon,
+                  //   height: 20,
+                  // ),
+                  icon: const Icon(
+                    Icons.chevron_left,
+                    size: 20,
+                  ),
+                ),
+              ),
+            ),
           ),
           centerTitle: true,
           title: Text(
@@ -29,7 +52,7 @@ class Addcart extends StatelessWidget {
         margin: EdgeInsets.all(Get.width * 0.03),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(Get.width * 0.06),
-            color: Colors.grey[100],
+            color: Colors.white,
             boxShadow: [
               BoxShadow(
                 color: Colors.grey.shade400,
@@ -51,9 +74,7 @@ class Addcart extends StatelessWidget {
                 children: [
                   Text(
                     'Delivery Time',
-                    style: TextStyle(
-                        fontSize: Get.width * 0.04,
-                        fontWeight: FontWeight.w500),
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
                   ),
                   Row(
                     children: [
@@ -75,64 +96,30 @@ class Addcart extends StatelessWidget {
                 ],
               ),
               SizedBox(
-                height: Get.height * 0.02,
+                height: 10,
               ),
               Text(
                 'Total Price',
                 style: TextStyle(
-                  fontSize: Get.width * 0.03,
+                  fontSize: 17,
                   fontWeight: FontWeight.w500,
                 ),
-              ),
-              SizedBox(
-                height: Get.height * 0.01,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  RichText(
-                    text: TextSpan(children: [
-                      TextSpan(
-                        text: '\$',
-                        style: TextStyle(
-                          fontSize: Get.width * 0.04,
+                  Obx(() => Text(controller.totalAmount.toString(),
+                      style: TextStyle(
+                          fontSize: 26,
                           color: Colors.red,
-                        ),
-                      ),
-                      TextSpan(
-                          text: '20.00',
-                          style: TextStyle(
-                            fontSize: Get.width * 0.07,
-                            color: Colors.black,
-                          ))
-                    ]),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      Get.to(
-                        () => payment(),
-                      );
-                    },
-                    child: SizedBox(
-                      child: Container(
-                        width: Get.width * 0.4,
-                        height: Get.height * 0.06,
-                        decoration: BoxDecoration(
-                          color: Colors.red,
-                          borderRadius: BorderRadius.circular(
-                            Get.width * 0.03,
-                          ),
-                        ),
-                        child: Center(
-                          child: Text(
-                            'Place Order',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: Get.width * 0.04,
-                            ),
-                          ),
-                        ),
-                      ),
+                          fontWeight: FontWeight.bold))),
+                  SizedBox(
+                    width: Get.width * 0.4,
+                    child: MyButton(
+                      title: 'Place Order',
+                      callback: () {
+                        Get.to(payment());
+                      },
                     ),
                   )
                 ],
@@ -144,12 +131,34 @@ class Addcart extends StatelessWidget {
       body: SafeArea(
         child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 20),
-            child: GetBuilder<AddToCartController>(builder: (controller) {
+            child: GetBuilder<Favouritiescontroller>(builder: (controller) {
               return ListView.builder(
-                  itemCount: controller.cartList.length,
+                  itemCount: controller.cartlist.length,
                   itemBuilder: (context, index) {
-                    final FoodModel foodModel = controller.cartList[index];
-                    return cartReusable(foodModel: foodModel);
+                    final FoodModel foodModel = controller.cartlist[index];
+                    return Slidable(
+                        endActionPane: ActionPane(
+                          motion: ScrollMotion(),
+                          children: [
+                            SlidableAction(
+                              // An action can be bigger than the others.
+                              flex: 2,
+                              onPressed: (context) {},
+                              backgroundColor: Color(0xFF7BC043),
+                              foregroundColor: Colors.white,
+                              icon: Icons.archive,
+                              label: 'Archive',
+                            ),
+                            SlidableAction(
+                              onPressed: (ctx) {},
+                              backgroundColor: Color(0xFF0392CF),
+                              foregroundColor: Colors.white,
+                              icon: Icons.save,
+                              label: 'Save',
+                            ),
+                          ],
+                        ),
+                        child: cartReusable(foodModel: foodModel));
                   });
             })),
       ),
@@ -198,17 +207,52 @@ class cartReusable extends StatelessWidget {
                       color: Colors.black),
                 ),
                 SizedBox(height: 5),
-                Text(
-                  foodModel.desc,
-                  style: TextStyle(fontSize: 16, color: Colors.black),
+                Row(
+                  children: [
+                    Text(
+                      foodModel.desc,
+                      style: TextStyle(fontSize: 16, color: Colors.black),
+                    ),
+                    SizedBox(
+                      width: 130,
+                    ),
+                    Text(
+                      'x1',
+                      style: TextStyle(color: Colors.red),
+                    )
+                  ],
                 ),
                 SizedBox(height: 5),
-                Text(
-                  foodModel.price.toString(),
-                  style: TextStyle(
-                      fontSize: 30,
-                      color: Colors.red,
-                      fontWeight: FontWeight.bold),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      foodModel.price.toString(),
+                      style: TextStyle(
+                          fontSize: 30,
+                          color: Colors.red,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(
+                      width: 80,
+                    ),
+                    Icon(
+                      Icons.star,
+                      color: Colors.yellow[600],
+                    ),
+                    Icon(
+                      Icons.star,
+                      color: Colors.yellow[600],
+                    ),
+                    Icon(
+                      Icons.star,
+                      color: Colors.yellow[600],
+                    ),
+                    Icon(
+                      Icons.star,
+                      color: Colors.yellow[600],
+                    ),
+                  ],
                 ),
               ],
             ),

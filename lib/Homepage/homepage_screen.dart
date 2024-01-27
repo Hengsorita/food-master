@@ -2,29 +2,39 @@ import 'package:flutter/material.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:project/Data/newdata.dart';
+import 'package:project/Homepage/home_controller.dart';
 import 'package:project/Product/product_screen.dart';
 import 'package:project/Profile/profile_screen.dart';
 import 'package:project/model/food_model.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  HomeScreen({
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen>
-    with AutomaticKeepAliveClientMixin {
+class _HomeScreenState extends State<HomeScreen> {
   var scaffoldKey = GlobalKey<ScaffoldState>();
 
+  final categoryList = ["Fast Food, Drink, Coca"];
+
+  HomeController homeController = Get.put(HomeController());
+
   @override
-  bool get wantKeepAlive => true;
+  void initState() {
+    homeController.getFoods();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    super.build(context);
     return DefaultTabController(
       length: 3,
+      initialIndex: 0,
       child: Scaffold(
         key: scaffoldKey,
         backgroundColor: Colors.grey[100],
@@ -115,7 +125,9 @@ class _HomeScreenState extends State<HomeScreen>
           const SizedBox(
             height: 10,
           ),
-          Expanded(child: _buildTabBody())
+          GetBuilder<HomeController>(builder: (controoler) {
+            return Expanded(child: _buildTabBody());
+          })
         ],
       ),
     );
@@ -218,6 +230,18 @@ class _HomeScreenState extends State<HomeScreen>
   }
 
   Widget _buildTabBar() {
+    List<Widget> tabBar = [];
+    categoryList.forEach((category) {
+      tabBar.add(
+        Tab(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [Icon(Icons.local_pizza), Text(category)],
+          ),
+        ),
+      );
+    });
+
     return Container(
       child: TabBar(
         dividerColor: Colors.transparent,
@@ -227,23 +251,26 @@ class _HomeScreenState extends State<HomeScreen>
         indicatorWeight: 0,
         indicator: BoxDecoration(
             color: Colors.red, borderRadius: BorderRadius.circular(16)),
+        onTap: (value) {
+          homeController.filterByCatgory(categoryList[value]);
+        },
         tabs: [
           Tab(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [Icon(Icons.local_pizza), Text("Pizza")],
+              children: [Icon(Icons.local_pizza), Text(categoryList[0])],
             ),
           ),
           Tab(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [Icon(Icons.local_drink), Text("Drink")],
+              children: [Icon(Icons.local_drink), Text(categoryList[1])],
             ),
           ),
           Tab(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [Icon(Icons.local_drink), Text("Coca")],
+              children: [Icon(Icons.local_drink), Text(categoryList[2])],
             ),
           )
         ],
@@ -253,14 +280,14 @@ class _HomeScreenState extends State<HomeScreen>
 
   Widget _buildTabBody() {
     return ListView.builder(
-        itemCount: FoodModel.foodList.length,
+        itemCount: homeController.foodList.length,
         scrollDirection: Axis.horizontal,
         itemBuilder: (context, index) {
-          final FoodModel foodModel = FoodModel.foodList[index];
+          final FoodRepo food = homeController.foodList[index];
           return InkWell(
             onTap: () {
               Get.to(Detailscreen(
-                foodModel: foodModel,
+                food: food,
               ));
             },
             child: Container(
@@ -287,11 +314,11 @@ class _HomeScreenState extends State<HomeScreen>
                           ], shape: BoxShape.circle),
                           clipBehavior: Clip.antiAlias,
                           child: Image.network(
-                            foodModel.img,
+                            food.image,
                             fit: BoxFit.fill,
                           )),
                       Text(
-                        foodModel.title,
+                        food.subtitle,
                         style: TextStyle(
                           fontSize: 20,
                           color: Colors.black,
@@ -299,25 +326,34 @@ class _HomeScreenState extends State<HomeScreen>
                         ),
                       ),
                       Text(
-                        foodModel.desc,
+                        'foodModel.desc',
                         style: TextStyle(
                           fontSize: 16,
                           color: Colors.grey,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      Text(
-                        foodModel.rate.toString(),
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.blueGrey,
-                        ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.star,
+                            color: Colors.yellow[600],
+                          ),
+                          Text(
+                            "5",
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.blueGrey,
+                            ),
+                          ),
+                        ],
                       ),
                       Spacer(),
                       Text(
-                        "\$ ${foodModel.price}",
+                        "\$ ${food.price}",
                         style: TextStyle(
-                          fontSize: 14,
+                          fontSize: 16,
                           color: Colors.red,
                           fontWeight: FontWeight.bold,
                         ),
